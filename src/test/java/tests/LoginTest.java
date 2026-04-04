@@ -12,7 +12,6 @@ import static org.testng.Assert.assertTrue;
  * Является дочерним от BaseTest.
  */
 public class LoginTest extends BaseTest {
-
     public final String URL_WEBSITE_SAUCEDEMO = "https://www.saucedemo.com/";
     public final String USER_NAME = "standard_user";
     public final String USER_PASSWORD = "secret_sauce";
