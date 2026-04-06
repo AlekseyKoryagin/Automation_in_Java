@@ -1,64 +1,51 @@
 package tests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Данный класс проверяет вход на сайт "https://www.saucedemo.com/",
+ * Данный класс проверяет вход на сайт,
  * валидные и невалидные проверки.
  * Является дочерним от BaseTest.
  */
 public class LoginTest extends BaseTest {
-    public final String URL_WEBSITE_SAUCEDEMO = "https://www.saucedemo.com/";
-    public final String USER_NAME = "standard_user";
-    public final String USER_PASSWORD = "secret_sauce";
-    public final String USER_IS_BLOCKED = "locked_out_user";
-    public final String FIELD_USERNAME_CSS_ID = "#user-name";
-    public final String FIELD_PASSWORD_CSS = "[data-test='password']";
-    public final String BUTTON_LOGIN_XPATH = "//input[@data-test ='login-button']";
-    public final String TITLE_PRODUCTS_CSS = "[data-test='title']";
-    public final String ERROR_MESSAGE_CSS = "[data-test='error']";
+    public static final String USERNAME = "standard_user";
+    public static final String PASSWORD = "secret_sauce";
+
+    private final String wrongUsername = "user";
+    private final String userIsBlocked = "locked_out_user";
+    private final String emptyUsername = "";
+    private final String wrongPassword = "pass";
+    private final String emptyPassword = "";
 
     /**
      * Проверка входа зарегистрированного пользователя.
      */
     @Test
     public void successfulLogin() {
-        driver.get(URL_WEBSITE_SAUCEDEMO);
-        driver.findElement(By.cssSelector(FIELD_USERNAME_CSS_ID))
-                .sendKeys(USER_NAME);
-        driver.findElement(By.cssSelector(FIELD_PASSWORD_CSS))
-                .sendKeys(USER_PASSWORD);
-        driver.findElement(By.xpath(BUTTON_LOGIN_XPATH))
-                .click();
+        loginPage.open();
+        loginPage.login(USERNAME, PASSWORD);
 
-        assertEquals(driver.findElement(By.cssSelector(TITLE_PRODUCTS_CSS)).getText(),
-                "Products",
+        assertEquals(productsPage.getTitle(), "Products",
                 "Login failed with a valid username and password");
-        assertEquals(driver.getCurrentUrl(),
+        assertEquals(productsPage.getUrl(),
                 "https://www.saucedemo.com/inventory.html",
                 "Invalid URL after successful login");
     }
 
     /**
-     *  Проверка входа зарегистрированного пользователя
-     *  с верным логином и неверным паролем.
+     * Проверка входа зарегистрированного пользователя
+     * с верным логином и неверным паролем.
      */
     @Test
     public void failedLoginInvalidPassword() {
-        driver.get(URL_WEBSITE_SAUCEDEMO);
-        driver.findElement(By.cssSelector(FIELD_USERNAME_CSS_ID))
-                .sendKeys(USER_NAME);
-        driver.findElement(By.cssSelector(FIELD_PASSWORD_CSS))
-                .sendKeys("pass");
-        driver.findElement(By.xpath(BUTTON_LOGIN_XPATH)).click();
+        loginPage.open();
+        loginPage.login(USERNAME, wrongPassword);
 
-        assertTrue(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).isDisplayed(),
-                "The error message did not appear");
-        assertEquals(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).getText(),
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
                 "Epic sadface: Username and password do not match any user in this service",
                 "The error message displayed is incorrect.");
     }
@@ -69,36 +56,68 @@ public class LoginTest extends BaseTest {
      */
     @Test
     public void failedLoginInvalidUsername() {
-        driver.get(URL_WEBSITE_SAUCEDEMO);
-        driver.findElement(By.cssSelector(FIELD_USERNAME_CSS_ID))
-                .sendKeys("user");
-        driver.findElement(By.cssSelector(FIELD_PASSWORD_CSS))
-                .sendKeys(USER_PASSWORD);
-        driver.findElement(By.xpath(BUTTON_LOGIN_XPATH)).click();
+        loginPage.open();
+        loginPage.login(wrongUsername, PASSWORD);
 
-        assertTrue(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).isDisplayed(),
-                "The error message did not appear");
-        assertEquals(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).getText(),
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
                 "Epic sadface: Username and password do not match any user in this service",
                 "The error message displayed is incorrect.");
     }
 
     /**
-     *  Проверка входа заблокированного пользователя.
+     * Проверка входа заблокированного пользователя.
      */
     @Test
     public void failedLoginUserIsBlocked() {
-        driver.get(URL_WEBSITE_SAUCEDEMO);
-        driver.findElement(By.cssSelector(FIELD_USERNAME_CSS_ID))
-                .sendKeys(USER_IS_BLOCKED);
-        driver.findElement(By.cssSelector(FIELD_PASSWORD_CSS))
-                .sendKeys(USER_PASSWORD);
-        driver.findElement(By.xpath(BUTTON_LOGIN_XPATH)).click();
+        loginPage.open();
+        loginPage.login(userIsBlocked, PASSWORD);
 
-        assertTrue(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).isDisplayed(),
-                "The error message did not appear");
-        assertEquals(driver.findElement(By.cssSelector(ERROR_MESSAGE_CSS)).getText(),
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
                 "Epic sadface: Sorry, this user has been locked out.",
+                "The error message displayed is incorrect.");
+    }
+
+    /**
+     * Проверка входа с пустыми полями Username и Password.
+     */
+    @Test
+    public void loginWithEmptyFields() {
+        loginPage.open();
+        loginPage.login(emptyUsername, emptyPassword);
+
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
+                "Epic sadface: Username is required",
+                "The error message displayed is incorrect.");
+    }
+
+    /**
+     * Проверка входа с пустым полем Username и верным паролем.
+     */
+    @Test
+    public void loginWithEmptyUsernameField() {
+        loginPage.open();
+        loginPage.login(emptyUsername, PASSWORD);
+
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
+                "Epic sadface: Username is required",
+                "The error message displayed is incorrect.");
+    }
+
+    /**
+     * Проверка входа с пустым полем Password и верным Username.
+     */
+    @Test
+    public void loginWithPasswordField() {
+        loginPage.open();
+        loginPage.login(USERNAME, emptyPassword);
+
+        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
+        assertEquals(loginPage.getErrorMsg(),
+                "Epic sadface: Password is required",
                 "The error message displayed is incorrect.");
     }
 }
