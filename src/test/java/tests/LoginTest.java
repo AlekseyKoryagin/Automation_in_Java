@@ -1,6 +1,7 @@
 package tests;
 
 import org.testng.annotations.Test;
+import pages.ProductsPage;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -24,14 +25,13 @@ public class LoginTest extends BaseTest {
      * Проверка входа зарегистрированного пользователя.
      */
     @Test
-    public void successfulLogin() {
+    public void checkLogin() {
         loginPage.open();
         loginPage.login(USERNAME, PASSWORD);
 
         assertEquals(productsPage.getTitle(), "Products",
                 "Login failed with a valid username and password");
-        assertEquals(productsPage.getUrl(),
-                "https://www.saucedemo.com/inventory.html",
+        assertEquals(productsPage.getUrl(), ProductsPage.URL_PRODUCTS_PAGE,
                 "Invalid URL after successful login");
     }
 
@@ -40,7 +40,7 @@ public class LoginTest extends BaseTest {
      * с верным логином и неверным паролем.
      */
     @Test
-    public void failedLoginInvalidPassword() {
+    public void checkWrongPasswordLogin() {
         loginPage.open();
         loginPage.login(USERNAME, wrongPassword);
 
@@ -55,7 +55,7 @@ public class LoginTest extends BaseTest {
      * с неверным логином и верным паролем.
      */
     @Test
-    public void failedLoginInvalidUsername() {
+    public void checkWrongUsernameLogin() {
         loginPage.open();
         loginPage.login(wrongUsername, PASSWORD);
 
@@ -69,7 +69,7 @@ public class LoginTest extends BaseTest {
      * Проверка входа заблокированного пользователя.
      */
     @Test
-    public void failedLoginUserIsBlocked() {
+    public void checkBlockUserLogin() {
         loginPage.open();
         loginPage.login(userIsBlocked, PASSWORD);
 
@@ -83,7 +83,7 @@ public class LoginTest extends BaseTest {
      * Проверка входа с пустыми полями Username и Password.
      */
     @Test
-    public void loginWithEmptyFields() {
+    public void checkEmptyUsernameAndPasswordFieldsLogin() {
         loginPage.open();
         loginPage.login(emptyUsername, emptyPassword);
 
@@ -97,7 +97,7 @@ public class LoginTest extends BaseTest {
      * Проверка входа с пустым полем Username и верным паролем.
      */
     @Test
-    public void loginWithEmptyUsernameField() {
+    public void checkEmptyUsernameFieldLogin() {
         loginPage.open();
         loginPage.login(emptyUsername, PASSWORD);
 
@@ -111,7 +111,7 @@ public class LoginTest extends BaseTest {
      * Проверка входа с пустым полем Password и верным Username.
      */
     @Test
-    public void loginWithPasswordField() {
+    public void checkEmptyPasswordFieldLogin() {
         loginPage.open();
         loginPage.login(USERNAME, emptyPassword);
 

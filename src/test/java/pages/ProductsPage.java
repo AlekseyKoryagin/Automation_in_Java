@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 public class ProductsPage {
     WebDriver driver;
 
+    public static final String URL_PRODUCTS_PAGE = "https://www.saucedemo.com/inventory.html";
+
     private final By title = By.cssSelector("[data-test='title']");
     private final By burgerMenu = By.id("react-burger-menu-btn");
     private final By linkLogout = By.cssSelector("[data-test='logout-sidebar-link']");

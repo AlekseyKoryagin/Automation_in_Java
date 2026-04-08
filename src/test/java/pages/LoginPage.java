@@ -39,7 +39,7 @@ public class LoginPage {
         return driver.getCurrentUrl();
     }
 
-    public boolean isButtonLogin() {
+    public boolean isLoginButtonDisplayed() {
         return driver.findElement(buttonLogin).isDisplayed();
     }
 }

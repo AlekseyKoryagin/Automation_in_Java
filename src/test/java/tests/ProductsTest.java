@@ -15,7 +15,7 @@ public class ProductsTest extends BaseTest {
         productsPage.clickBurgerMenu();
         productsPage.clickLinkLogout();
 
-        assertTrue(loginPage.isButtonLogin(), "The login button did not appear");
+        assertTrue(loginPage.isLoginButtonDisplayed(), "The login button did not appear");
         assertEquals(loginPage.getUrl(), LoginPage.URL_LOGIN_PAGE,
                 "Invalid URL after successful login");
     }
