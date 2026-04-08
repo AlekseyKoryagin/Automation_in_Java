@@ -5,14 +5,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import pages.LoginPage;
+import pages.ProductsPage;
 
 import java.time.Duration;
 
 /**
- * Базовый тест-класс
+ * Базовый тест-класс для тестов
  */
 public class BaseTest {
     WebDriver driver;
+    LoginPage loginPage;
+    ProductsPage productsPage;
 
     /**
      * Метод выполняется перед тестом.
@@ -20,7 +24,8 @@ public class BaseTest {
      * "--start-maximized" - окно браузера во весь экран.
      * "--headless" - запускает браузер в безголовом режиме.
      * "--guest" - войти как гость в браузере.
-     * Неявное ожидание 10 сек
+     * Неявное ожидание 10 сек.
+     * Инициализируем классы LoginPage и ProductsPage/
      */
     @BeforeMethod
     public void startDriver() {
@@ -30,6 +35,9 @@ public class BaseTest {
         options.addArguments("--guest");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        loginPage = new LoginPage(driver);
+        productsPage = new ProductsPage(driver);
     }
 
     /**
