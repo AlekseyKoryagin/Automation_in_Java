@@ -1,6 +1,8 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pages.BasePage;
 import pages.ProductsPage;
 
 import static org.testng.Assert.assertEquals;
@@ -12,112 +14,46 @@ import static org.testng.Assert.assertTrue;
  * Является дочерним от BaseTest.
  */
 public class LoginTest extends BaseTest {
-    public static final String USERNAME = "standard_user";
-    public static final String PASSWORD = "secret_sauce";
-
-    private final String wrongUsername = "user";
-    private final String userIsBlocked = "locked_out_user";
-    private final String emptyUsername = "";
-    private final String wrongPassword = "pass";
-    private final String emptyPassword = "";
-
     /**
      * Проверка входа зарегистрированного пользователя.
      */
     @Test
     public void checkLogin() {
         loginPage.open();
-        loginPage.login(USERNAME, PASSWORD);
+        assertEquals(loginPage.getColorOfLoginButton(), "rgba(61, 220, 145, 1)",
+                "The color of login button is incorrect");
+        loginPage.login(BasePage.USERNAME, BasePage.PASSWORD);
 
-        assertEquals(productsPage.getTitle(), "Products",
+        assertTrue(productsPage.pageTitleDisplayed(), "The products title didn't appear");
+        assertEquals(productsPage.getPageTitle(), "Products",
                 "Login failed with a valid username and password");
         assertEquals(productsPage.getUrl(), ProductsPage.URL_PRODUCTS_PAGE,
                 "Invalid URL after successful login");
     }
 
     /**
-     * Проверка входа зарегистрированного пользователя
-     * с верным логином и неверным паролем.
+     * Проверка некорректного логина.
      */
-    @Test
-    public void checkWrongPasswordLogin() {
+    @Test(dataProvider = "incorrectData")
+    public void checkIncorrectLogin(String username, String password, String expectedErrorMsg) {
         loginPage.open();
-        loginPage.login(USERNAME, wrongPassword);
+        loginPage.login(username, password);
 
         assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Username and password do not match any user in this service",
-                "The error message displayed is incorrect.");
+        assertEquals(loginPage.getErrorMsg(), expectedErrorMsg, "The error message displayed is incorrect.");
     }
 
-    /**
-     * Проверка входа зарегистрированного пользователя
-     * с неверным логином и верным паролем.
-     */
-    @Test
-    public void checkWrongUsernameLogin() {
-        loginPage.open();
-        loginPage.login(wrongUsername, PASSWORD);
-
-        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Username and password do not match any user in this service",
-                "The error message displayed is incorrect.");
-    }
-
-    /**
-     * Проверка входа заблокированного пользователя.
-     */
-    @Test
-    public void checkBlockUserLogin() {
-        loginPage.open();
-        loginPage.login(userIsBlocked, PASSWORD);
-
-        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Sorry, this user has been locked out.",
-                "The error message displayed is incorrect.");
-    }
-
-    /**
-     * Проверка входа с пустыми полями Username и Password.
-     */
-    @Test
-    public void checkEmptyUsernameAndPasswordFieldsLogin() {
-        loginPage.open();
-        loginPage.login(emptyUsername, emptyPassword);
-
-        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Username is required",
-                "The error message displayed is incorrect.");
-    }
-
-    /**
-     * Проверка входа с пустым полем Username и верным паролем.
-     */
-    @Test
-    public void checkEmptyUsernameFieldLogin() {
-        loginPage.open();
-        loginPage.login(emptyUsername, PASSWORD);
-
-        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Username is required",
-                "The error message displayed is incorrect.");
-    }
-
-    /**
-     * Проверка входа с пустым полем Password и верным Username.
-     */
-    @Test
-    public void checkEmptyPasswordFieldLogin() {
-        loginPage.open();
-        loginPage.login(USERNAME, emptyPassword);
-
-        assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
-        assertEquals(loginPage.getErrorMsg(),
-                "Epic sadface: Password is required",
-                "The error message displayed is incorrect.");
+    @DataProvider(name = "incorrectData")
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"standard_user", "pass", "Epic sadface: Username and password do not match any user in this service"},
+                {"user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."},
+                {"", "", "Epic sadface: Username is required"},
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"Standard_user", "Standard_user",
+                        "Epic sadface: Username and password do not match any user in this service"},
+        };
     }
 }
