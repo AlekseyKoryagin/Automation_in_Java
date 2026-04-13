@@ -8,7 +8,6 @@ import pages.ProductsPage;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-
 /**
  * Данный класс проверяет вход на сайт,
  * валидные и невалидные проверки.
@@ -35,7 +34,7 @@ public class LoginTest extends BaseTest {
     /**
      * Проверка некорректного логина.
      */
-    @Test(dataProvider = "incorrectDate")
+    @Test(dataProvider = "incorrectData")
     public void checkIncorrectLogin(String username, String password, String expectedErrorMsg) {
         loginPage.open();
         loginPage.login(username, password);
@@ -44,8 +43,8 @@ public class LoginTest extends BaseTest {
         assertEquals(loginPage.getErrorMsg(), expectedErrorMsg, "The error message displayed is incorrect.");
     }
 
-    @DataProvider(name = "incorrectDate")
-    public Object[][] loginDate() {
+    @DataProvider(name = "incorrectData")
+    public Object[][] loginData() {
         return new Object[][]{
                 {"standard_user", "pass", "Epic sadface: Username and password do not match any user in this service"},
                 {"user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
