@@ -26,8 +26,8 @@ public class BaseTest {
      * "--start-maximized" - окно браузера во весь экран.
      * "--headless" - запускает браузер в безголовом режиме.
      * "--guest" - войти как гость в браузере.
-     * Неявное ожидание 10 сек.
-     * Инициализируем классы LoginPage и ProductsPage/
+     * Неявное ожидание 5 сек.
+     * Инициализируем классы LoginPage, ProductsPage, CartPage.
      */
     @BeforeMethod
     public void startDriver() {
@@ -36,7 +36,7 @@ public class BaseTest {
         options.addArguments("--headless");
         options.addArguments("--guest");
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
