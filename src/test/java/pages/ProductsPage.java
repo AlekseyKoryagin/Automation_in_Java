@@ -12,23 +12,10 @@ public class ProductsPage extends BasePage {
             "//ancestor::div[@data-test='inventory-item']//child::button";
 
     private final By pageTitle = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("title"));
-    private final By burgerMenu = By.id("react-burger-menu-btn");
-    private final By linkLogout = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("logout-sidebar-link"));
     private final By addToCartButton = By.xpath("//*[text()='Add to cart']");
-    private final By cartLink = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("shopping-cart-link"));
-    private final By countThingsInCartBadge = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("shopping-cart-badge"));
 
     public ProductsPage(WebDriver driver) {
         super(driver);
-    }
-
-    public ProductsPage clickBurgerMenu() {
-        driver.findElement(burgerMenu).click();
-        return this;
-    }
-
-    public void clickLinkLogout() {
-        driver.findElement(linkLogout).click();
     }
 
     public void addFirstThingToCart() {
@@ -72,10 +59,6 @@ public class ProductsPage extends BasePage {
         }
     }
 
-    public void clickCartLink() {
-        driver.findElement(cartLink).click();
-    }
-
     public String getPageTitle() {
         return driver.findElement(pageTitle).getText();
     }
@@ -84,21 +67,9 @@ public class ProductsPage extends BasePage {
         return driver.findElement(pageTitle).isDisplayed();
     }
 
-    public String getCountThingsInCart() {
-        return driver.findElement(countThingsInCartBadge).getText();
-    }
-
-    public String getColorOfCountThingsInCartBadge() {
-        return driver.findElement(countThingsInCartBadge).getCssValue("background-color");
-    }
-
     public String getColorOfBorderButton(String goodsName) {
         return driver.findElement(
                 By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
-    }
-
-    public String getCountThingsInCartBadge() {
-        return driver.findElement(cartLink).getText();
     }
 
     /**
