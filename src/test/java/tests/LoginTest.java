@@ -36,8 +36,7 @@ public class LoginTest extends BaseTest {
      */
     @Test(dataProvider = "incorrectData")
     public void checkIncorrectLogin(String username, String password, String expectedErrorMsg) {
-        loginPage.open();
-        loginPage.login(username, password);
+        loginPage.open().login(username, password);
 
         assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
         assertEquals(loginPage.getErrorMsg(), expectedErrorMsg, "The error message displayed is incorrect.");
@@ -52,8 +51,7 @@ public class LoginTest extends BaseTest {
                 {"", "", "Epic sadface: Username is required"},
                 {"", "secret_sauce", "Epic sadface: Username is required"},
                 {"standard_user", "", "Epic sadface: Password is required"},
-                {"Standard_user", "Standard_user",
-                        "Epic sadface: Username and password do not match any user in this service"},
+                {"Standard_user", "Standard_user", "Epic sadface: Username and password do not match any user in this service"},
         };
     }
 }

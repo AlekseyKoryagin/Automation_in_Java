@@ -5,30 +5,31 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
     private final By usernameField = By.cssSelector("#user-name");
-    private final By passwordField = By.cssSelector("[data-test='password']");
+    private final By passwordField = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("password"));
     private final By loginButton = By.xpath("//input[@data-test ='login-button']");
-    private final By errorMessage = By.cssSelector("[data-test='error']");
+    private final By errorMessage = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("error"));
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public void open() {
+    public LoginPage open() {
         driver.get(BASE_URL);
+        return this;
     }
 
     public void login(String username, String password) {
-        fillUsernameField(username);
-        fillPasswordField(password);
-        clickLoginButton();
+        fillUsernameField(username).fillPasswordField(password).clickLoginButton();
     }
 
-    public void fillUsernameField(String username) {
+    public LoginPage fillUsernameField(String username) {
         driver.findElement(usernameField).sendKeys(username);
+        return this;
     }
 
-    public void fillPasswordField(String password) {
+    public LoginPage fillPasswordField(String password) {
         driver.findElement(passwordField).sendKeys(password);
+        return this;
     }
 
     public void clickLoginButton() {
