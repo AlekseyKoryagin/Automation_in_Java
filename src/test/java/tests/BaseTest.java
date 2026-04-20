@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.CartPage;
-import pages.CompanyMainPage;
 import pages.LoginPage;
 import pages.ProductsPage;
 
@@ -20,7 +19,6 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
     CartPage cartPage;
-    CompanyMainPage companyMainPage;
 
     /**
      * Метод выполняется перед тестом.
@@ -43,7 +41,6 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
-        companyMainPage = new CompanyMainPage(driver);
     }
 
     /**

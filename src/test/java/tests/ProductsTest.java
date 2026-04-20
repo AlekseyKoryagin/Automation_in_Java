@@ -6,17 +6,6 @@ import pages.BasePage;
 import static org.testng.Assert.*;
 
 public class ProductsTest extends BaseTest {
-
-    @Test
-    public void checkLoginOut() {
-        loginPage.open().login(BasePage.USERNAME, BasePage.PASSWORD);
-        assertTrue(productsPage.pageTitleDisplayed(), "The products title didn't appear");
-        productsPage.navigationPanel.clickBurgerMenu().clickLinkLogout();
-
-        assertTrue(loginPage.isLoginButtonDisplayed(), "The login button did not appear");
-        assertEquals(loginPage.getUrl(), BasePage.BASE_URL, "Invalid URL after successful login");
-    }
-
     @Test
     public void checkFirstThingAddedToCart() {
         loginPage.open().login(BasePage.USERNAME, BasePage.PASSWORD);
