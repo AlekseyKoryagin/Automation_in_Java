@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class CartPage extends BasePage {
 
     private final By pageTitle = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("title"));
     private final By goodsNames = By.xpath("//*[@data-test='inventory-item']//child::a");
+    private final By checkoutBtn = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("checkout"));
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -27,6 +29,7 @@ public class CartPage extends BasePage {
     }
 
     public List<String> getGoodsNames() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutBtn));
         List<WebElement> goodsTitle = driver.findElements(goodsNames);
         List<String> goodsNames = new ArrayList<>();
         for (WebElement goodTitle : goodsTitle) {

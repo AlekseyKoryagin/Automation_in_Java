@@ -1,7 +1,9 @@
 package pages;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class BasePage {
@@ -12,9 +14,13 @@ public class BasePage {
     public static final List<String> GOODS_NAME = List.of("Sauce Labs Bike Light", "Sauce Labs Onesie", "Sauce Labs Backpack");
 
     WebDriver driver;
+    WebDriverWait wait;
+    public NavigationPanel navigationPanel;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
+        this.navigationPanel = new NavigationPanel(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public String getUrl() {
