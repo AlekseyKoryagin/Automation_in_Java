@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import user.User;
 
 public class LoginPage extends BasePage {
     private final By usernameField = By.cssSelector("#user-name");
@@ -18,8 +19,8 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public void login(String username, String password) {
-        fillUsernameField(username).fillPasswordField(password).clickLoginButton();
+    public void login(User user) {
+        fillUsernameField(user.getUsername()).fillPasswordField(user.getPassword()).clickLoginButton();
     }
 
     public LoginPage fillUsernameField(String username) {
