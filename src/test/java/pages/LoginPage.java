@@ -1,14 +1,22 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import user.User;
 
 public class LoginPage extends BasePage {
-    private final By usernameField = By.cssSelector("#user-name");
-    private final By passwordField = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("password"));
-    private final By loginButton = By.xpath("//input[@data-test ='login-button']");
-    private final By errorMessage = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("error"));
+    @FindBy(css = "#user-name")
+    private WebElement usernameField;
+
+    @FindBy(css = "[data-test='password']")
+    private WebElement passwordField;
+
+    @FindBy(xpath = "//input[@data-test ='login-button']")
+    private WebElement loginButton;
+
+    @FindBy(css = "[data-test='error']")
+    private WebElement errorMessage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -24,32 +32,32 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage fillUsernameField(String username) {
-        driver.findElement(usernameField).sendKeys(username);
+        usernameField.sendKeys(username);
         return this;
     }
 
     public LoginPage fillPasswordField(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        passwordField.sendKeys(password);
         return this;
     }
 
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        loginButton.click();
     }
 
     public boolean isErrorMsgDisplayed() {
-        return driver.findElement(errorMessage).isDisplayed();
+        return errorMessage.isDisplayed();
     }
 
     public String getErrorMsg() {
-        return driver.findElement(errorMessage).getText();
+        return errorMessage.getText();
     }
 
     public boolean isLoginButtonDisplayed() {
-        return driver.findElement(loginButton).isDisplayed();
+        return loginButton.isDisplayed();
     }
 
     public String getColorOfLoginButton() {
-        return driver.findElement(loginButton).getCssValue("background-color");
+        return loginButton.getCssValue("background-color");
     }
 }
