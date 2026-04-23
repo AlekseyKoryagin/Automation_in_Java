@@ -2,11 +2,12 @@ package tests;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.BasePage;
-import pages.ProductsPage;
+import user.User;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static pages.ProductsPage.PRODUCTS_PAGE_URL;
+import static user.UserFactory.*;
 
 /**
  * Данный класс проверяет вход на сайт,
@@ -22,21 +23,20 @@ public class LoginTest extends BaseTest {
         loginPage.open();
         assertEquals(loginPage.getColorOfLoginButton(), "rgba(61, 220, 145, 1)",
                 "The color of login button is incorrect");
-        loginPage.login(BasePage.USERNAME, BasePage.PASSWORD);
+        loginPage.login(withStandardPermission());
 
-        assertTrue(productsPage.pageTitleDisplayed(), "The products title didn't appear");
+        assertTrue(productsPage.isPageTitleDisplayed(), "The products title didn't appear");
         assertEquals(productsPage.getPageTitle(), "Products",
                 "Login failed with a valid username and password");
-        assertEquals(productsPage.getUrl(), ProductsPage.URL_PRODUCTS_PAGE,
-                "Invalid URL after successful login");
+        assertEquals(productsPage.getUrl(), PRODUCTS_PAGE_URL, "Invalid URL after successful login");
     }
 
     /**
      * Проверка некорректного логина.
      */
     @Test(dataProvider = "incorrectData")
-    public void checkIncorrectLogin(String username, String password, String expectedErrorMsg) {
-        loginPage.open().login(username, password);
+    public void checkIncorrectLogin(User user, String expectedErrorMsg) {
+        loginPage.open().login(user);
 
         assertTrue(loginPage.isErrorMsgDisplayed(), "The error message did not appear");
         assertEquals(loginPage.getErrorMsg(), expectedErrorMsg, "The error message displayed is incorrect.");
@@ -45,13 +45,13 @@ public class LoginTest extends BaseTest {
     @DataProvider(name = "incorrectData")
     public Object[][] loginData() {
         return new Object[][]{
-                {"standard_user", "pass", "Epic sadface: Username and password do not match any user in this service"},
-                {"user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
-                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."},
-                {"", "", "Epic sadface: Username is required"},
-                {"", "secret_sauce", "Epic sadface: Username is required"},
-                {"standard_user", "", "Epic sadface: Password is required"},
-                {"Standard_user", "Standard_user", "Epic sadface: Username and password do not match any user in this service"},
+                {withWrongPassword(), "Epic sadface: Username and password do not match any user in this service"},
+                {withWrongUsername(), "Epic sadface: Username and password do not match any user in this service"},
+                {withLockedOutUser(), "Epic sadface: Sorry, this user has been locked out."},
+                {withEmptyFields(), "Epic sadface: Username is required"},
+                {withEmptyUsernameField(), "Epic sadface: Username is required"},
+                {withEmptyPasswordField(), "Epic sadface: Password is required"},
+                {withUpperCaseUsername(), "Epic sadface: Username and password do not match any user in this service"},
         };
     }
 }

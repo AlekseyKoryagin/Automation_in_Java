@@ -3,11 +3,12 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import utils.PropertyReader;
 
 import java.util.List;
 
 public class ProductsPage extends BasePage {
-    public static final String URL_PRODUCTS_PAGE = "https://www.saucedemo.com/inventory.html";
+    public static final String PRODUCTS_PAGE_URL = PropertyReader.getProperty("automation_in_java.productsPageUrl");
     public static final String ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN = "//*[text()='%s']" +
             "//ancestor::div[@data-test='inventory-item']//child::button";
 
@@ -63,7 +64,7 @@ public class ProductsPage extends BasePage {
         return driver.findElement(pageTitle).getText();
     }
 
-    public boolean pageTitleDisplayed() {
+    public boolean isPageTitleDisplayed() {
         return driver.findElement(pageTitle).isDisplayed();
     }
 
