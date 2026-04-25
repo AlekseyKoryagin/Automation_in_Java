@@ -2,8 +2,7 @@ package tests;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 import static pages.BasePage.BASE_URL;
 import static pages.NavigationPanel.COMPANY_MAIN_PAGE_URL;
 import static user.UserFactory.withStandardPermission;
