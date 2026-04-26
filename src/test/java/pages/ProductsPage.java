@@ -5,14 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.PropertyReader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsPage extends BasePage {
     public static final String PRODUCTS_PAGE_URL = PropertyReader.getProperty("automation_in_java.productsPageUrl");
-    public static final String ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN = "//*[text()='%s']" +
-            "//ancestor::div[@data-test='inventory-item']//child::button";
+    public static final String PRODUCT_PRICE = "//*[text()='%s']" +
+            "//ancestor::div[@data-test='inventory-item']//child::div[@data-test='inventory-item-price']";
 
-    private final By pageTitle = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("title"));
     private final By addToCartButton = By.xpath("//*[text()='Add to cart']");
 
     public ProductsPage(WebDriver driver) {
@@ -69,8 +69,7 @@ public class ProductsPage extends BasePage {
     }
 
     public String getColorOfBorderButton(String goodsName) {
-        return driver.findElement(
-                By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
+        return driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
     }
 
     /**
@@ -80,5 +79,30 @@ public class ProductsPage extends BasePage {
      */
     public boolean isRightBorderColorBtn(String goodsName, String subStrColor) {
         return getColorOfBorderButton(goodsName).contains(subStrColor);
+    }
+
+    /**
+     * Получает цену товара.
+     * @param productName принимает название товара.
+     * @return возвращает число double.
+     */
+    public double getProductPrice(String productName) {
+        return Double.parseDouble(driver.findElement(By.xpath(PRODUCT_PRICE.formatted(productName))).getText().replace("$", ""));
+    }
+
+    public List<Double> getProductPriceList(List<String> goodsNames) {
+        List<Double> prices = new ArrayList<>();
+        for (String name : goodsNames) {
+            prices.add(getProductPrice(name));
+        }
+        return prices;
+    }
+
+    public double getTotalCostOfGoods(List<Double> prices) {
+        double totalCost = 0.00;
+        for (Double prise : prices) {
+            totalCost += prise;
+        }
+        return totalCost;
     }
 }

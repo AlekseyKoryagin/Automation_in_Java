@@ -52,4 +52,8 @@ public class LoginPage extends BasePage {
     public String getColorOfLoginButton() {
         return driver.findElement(loginButton).getCssValue("background-color");
     }
+
+    public boolean isRightColorBtn(String subStrColor) {
+        return getColorOfLoginButton().contains(subStrColor);
+    }
 }

@@ -1,11 +1,9 @@
 package tests;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import user.User;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 import static pages.ProductsPage.PRODUCTS_PAGE_URL;
 import static user.UserFactory.*;
 
@@ -18,11 +16,10 @@ public class LoginTest extends BaseTest {
     /**
      * Проверка входа зарегистрированного пользователя.
      */
-    @Test
+    @Test(groups = "smoke, regress")
     public void checkLogin() {
         loginPage.open();
-        assertEquals(loginPage.getColorOfLoginButton(), "rgba(61, 220, 145, 1)",
-                "The color of login button is incorrect");
+        assertTrue(loginPage.isRightColorBtn("61, 220, 145"), "The color of login button is incorrect");
         loginPage.login(withStandardPermission());
 
         assertTrue(productsPage.isPageTitleDisplayed(), "The products title didn't appear");

@@ -9,23 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartPage extends BasePage {
-    public static final String REMOVE_BUTTON_PATTERN = "//*[text()='%s']" +
-            "//ancestor::div[@data-test='inventory-item']//child::button";
-
-    private final By pageTitle = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("title"));
     private final By goodsNames = By.xpath("//*[@data-test='inventory-item']//child::a");
     private final By checkoutBtn = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("checkout"));
 
     public CartPage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getTitle() {
-        return driver.findElement(pageTitle).getText();
-    }
-
-    public boolean isTitleDisplayed() {
-        return driver.findElement(pageTitle).isDisplayed();
     }
 
     public List<String> getGoodsNames() {
@@ -58,15 +46,19 @@ public class CartPage extends BasePage {
         return true;
     }
 
+    public void clickCheckoutBtn() {
+        driver.findElement(checkoutBtn).click();
+    }
+
     public void deleteGoodsFromCart(String goodsName) {
-        driver.findElement(By.xpath(REMOVE_BUTTON_PATTERN.formatted(goodsName))).click();
+        driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).click();
     }
 
     public boolean isRemoveBtnDisplayed(String goodsName) {
-        return driver.findElement(By.xpath(REMOVE_BUTTON_PATTERN.formatted(goodsName))).isDisplayed();
+        return driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).isDisplayed();
     }
 
     public boolean hasNotRemoveBtn(String goodsName) {
-        return driver.findElements(By.xpath(REMOVE_BUTTON_PATTERN.formatted(goodsName))).isEmpty();
+        return driver.findElements(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).isEmpty();
     }
 }
