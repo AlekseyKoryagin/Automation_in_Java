@@ -8,6 +8,9 @@
             <class name="tests.ProductsTest"/>
             <class name="tests.CartTest"/>
             <class name="tests.NavigationPanelTest"/>
+            <class name="tests.CheckoutYourInformationTest"/>
+            <class name="tests.CheckoutOverviewTest"/>
+            <class name="tests.CheckoutCompleteTest"/>
             <parameter name="browser" value="chrome"/>
         </classes>
     </test>
@@ -17,6 +20,9 @@
             <class name="tests.ProductsTest"/>
             <class name="tests.CartTest"/>
             <class name="tests.NavigationPanelTest"/>
+            <class name="tests.CheckoutYourInformationTest"/>
+            <class name="tests.CheckoutOverviewTest"/>
+            <class name="tests.CheckoutCompleteTest"/>
             <parameter name="browser" value="firefox"/>
         </classes>
     </test>
