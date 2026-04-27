@@ -3,6 +3,7 @@
 <suite thread-count="4" name="Automation_in_Java" parallel="classes">
 
     <test name="Chrome">
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="tests.LoginTest"/>
             <class name="tests.ProductsTest"/>
@@ -11,10 +12,10 @@
             <class name="tests.CheckoutYourInformationTest"/>
             <class name="tests.CheckoutOverviewTest"/>
             <class name="tests.CheckoutCompleteTest"/>
-            <parameter name="browser" value="chrome"/>
         </classes>
     </test>
     <test name="Firefox">
+        <parameter name="browser" value="firefox"/>
         <classes>
             <class name="tests.LoginTest"/>
             <class name="tests.ProductsTest"/>
@@ -23,7 +24,6 @@
             <class name="tests.CheckoutYourInformationTest"/>
             <class name="tests.CheckoutOverviewTest"/>
             <class name="tests.CheckoutCompleteTest"/>
-            <parameter name="browser" value="firefox"/>
         </classes>
     </test>
 </suite>

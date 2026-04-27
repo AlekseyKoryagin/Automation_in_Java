@@ -11,7 +11,7 @@ public class NavigationPanelTest extends BaseTest {
     @Test
     public void checkLoginOut() {
         loginPage.open().login(withStandardPermission());
-        assertTrue(productsPage.isPageTitleDisplayed(), "The products title didn't appear");
+        assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
         productsPage.navigationPanel.clickBurgerMenu().clickLinkLogout();
 
         assertTrue(loginPage.isLoginButtonDisplayed(), "The login button did not appear");

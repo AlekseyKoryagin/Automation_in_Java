@@ -22,8 +22,8 @@ public class LoginTest extends BaseTest {
         assertTrue(loginPage.isRightColorBtn("61, 220, 145"), "The color of login button is incorrect");
         loginPage.login(withStandardPermission());
 
-        assertTrue(productsPage.isPageTitleDisplayed(), "The products title didn't appear");
-        assertEquals(productsPage.getPageTitle(), "Products",
+        assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
+        assertEquals(productsPage.getTitle(), "Products",
                 "Login failed with a valid username and password");
         assertEquals(productsPage.getUrl(), PRODUCTS_PAGE_URL, "Invalid URL after successful login");
     }

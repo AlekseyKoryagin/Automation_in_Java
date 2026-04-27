@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartPage extends BasePage {
@@ -19,11 +18,7 @@ public class CartPage extends BasePage {
     public List<String> getGoodsNames() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutBtn));
         List<WebElement> goodsTitle = driver.findElements(goodsNames);
-        List<String> goodsNames = new ArrayList<>();
-        for (WebElement goodTitle : goodsTitle) {
-            goodsNames.add(goodTitle.getText());
-        }
-        return goodsNames;
+        return goodsTitle.stream().map(WebElement::getText).toList();
     }
 
     public boolean isListEmpty(List<String> goodsInCart) {
@@ -47,7 +42,7 @@ public class CartPage extends BasePage {
     }
 
     public void clickCheckoutBtn() {
-        driver.findElement(checkoutBtn).click();
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutBtn)).click();
     }
 
     public void deleteGoodsFromCart(String goodsName) {

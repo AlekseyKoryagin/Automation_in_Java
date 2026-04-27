@@ -2,6 +2,8 @@ package tests;
 
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
+
 import static org.testng.Assert.*;
 import static pages.BasePage.GOODS_NAME;
 import static user.UserFactory.*;
@@ -11,7 +13,7 @@ public class CheckoutOverviewTest extends BaseTest {
     public void checkAmoundsInOverview() {
         loginPage.open().login(withStandardPermission());
         productsPage.addGoodsToCartFromList(GOODS_NAME);
-        double totalCost = productsPage.getTotalCostOfGoods(productsPage.getProductPriceList(GOODS_NAME));
+        BigDecimal totalCost = productsPage.getTotalCostOfGoods(productsPage.getProductPriceList(GOODS_NAME));
         productsPage.navigationPanel.clickCartLink();
         cartPage.clickCheckoutBtn();
         checkoutYourInformationPage.sendFilledForm(infoWithCorrectData());

@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import user.UserData;
 
 public class CheckoutYourInformationPage extends BasePage {
@@ -34,11 +35,11 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public String getCancelBtnName() {
-        return driver.findElement(cancelBtn).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(cancelBtn)).getText();
     }
 
     public String getContinueBtnName() {
-        return driver.findElement(continueBtn).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(continueBtn)).getAttribute("value");
     }
 
     public boolean isLastNameFieldDisplayed() {
@@ -46,7 +47,7 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public String getLastNameFieldPlaceholder() {
-        return driver.findElement(lastNameField).getAttribute("placeholder");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameField)).getAttribute("placeholder");
     }
 
     public boolean isPostalCodeFieldDisplayed() {
@@ -54,7 +55,7 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public String getPostalCodeFieldPlaceholder() {
-        return driver.findElement(postalCodeField).getAttribute("placeholder");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(postalCodeField)).getAttribute("placeholder");
     }
 
     public boolean isFirstNameFieldDisplayed() {
@@ -62,7 +63,7 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public String getFirstNameFieldPlaceholder() {
-        return driver.findElement(firstNameField).getAttribute("placeholder");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameField)).getAttribute("placeholder");
     }
 
     public CheckoutYourInformationPage fillFirstNameField(String firstName) {
@@ -81,7 +82,7 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public void clickContinueBtn() {
-        driver.findElement(continueBtn).click();
+        wait.until(ExpectedConditions.elementToBeClickable(continueBtn)).click();
     }
 
     public void sendFilledForm(UserData userData) {
@@ -93,11 +94,11 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public String getErrorMsg() {
-        return driver.findElement(errorMsg).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsg)).getText();
     }
 
     public String getBackgroundColorErrorMsg() {
-        return driver.findElement(errorMsgBlock).getCssValue("background-color");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsgBlock)).getCssValue("background-color");
     }
 
     public boolean isCorrectBackgroundColorErrorMsg(String subStr) {

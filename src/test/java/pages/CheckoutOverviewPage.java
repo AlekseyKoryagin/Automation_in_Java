@@ -2,6 +2,9 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.math.BigDecimal;
 
 public class CheckoutOverviewPage extends BasePage {
     private final By finishBtn = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("finish"));
@@ -22,33 +25,37 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public String getFinishBtnName() {
-        return driver.findElement(finishBtn).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(finishBtn)).getText();
     }
 
     public void clickFinishBtn() {
-        driver.findElement(finishBtn).click();
+        wait.until(ExpectedConditions.elementToBeClickable(finishBtn)).click();
     }
 
-    public double getPriceTotal() {
-        String[] prise = (driver.findElement(priceTotal).getText()).split("\\$");
-        return Double.parseDouble(prise[1]);
+    public BigDecimal getPriceTotal() {
+        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(priceTotal)).getText().split("\\$");
+        return new BigDecimal(prise[1]);
     }
 
-    public boolean isSameCost(double totalCost) {
-        return totalCost == getPriceTotal();
+    public boolean isSameCost(BigDecimal totalCost) {
+        return compareDoubleNumbers(totalCost, getPriceTotal());
     }
 
-    public double getTax() {
-        String[] prise = (driver.findElement(tax).getText()).split("\\$");
-        return Double.parseDouble(prise[1]);
+    public BigDecimal getTax() {
+        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(tax)).getText().split("\\$");
+        return new BigDecimal(prise[1]);
     }
 
-    public double getTotal() {
-        String[] prise = (driver.findElement(total).getText()).split("\\$");
-        return Double.parseDouble(prise[1]);
+    public BigDecimal getTotal() {
+        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(total)).getText().split("\\$");
+        return new BigDecimal(prise[1]);
     }
 
     public boolean isTotalEqualCostAndTax() {
-        return getTotal() == getPriceTotal() + getTax();
+        return compareDoubleNumbers(getTotal(), (getPriceTotal().add(getTax())));
+    }
+
+    public boolean compareDoubleNumbers(BigDecimal firstNum, BigDecimal secondNum) {
+        return firstNum.compareTo(secondNum) == 0;
     }
 }

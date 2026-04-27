@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.PropertyReader;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductsPage extends BasePage {
@@ -60,14 +60,6 @@ public class ProductsPage extends BasePage {
         }
     }
 
-    public String getPageTitle() {
-        return driver.findElement(pageTitle).getText();
-    }
-
-    public boolean isPageTitleDisplayed() {
-        return driver.findElement(pageTitle).isDisplayed();
-    }
-
     public String getColorOfBorderButton(String goodsName) {
         return driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
     }
@@ -84,24 +76,20 @@ public class ProductsPage extends BasePage {
     /**
      * Получает цену товара.
      * @param productName принимает название товара.
-     * @return возвращает число double.
+     * @return возвращает число BigDecimal.
      */
-    public double getProductPrice(String productName) {
-        return Double.parseDouble(driver.findElement(By.xpath(PRODUCT_PRICE.formatted(productName))).getText().replace("$", ""));
+    public BigDecimal getProductPrice(String productName) {
+        return new BigDecimal(driver.findElement(By.xpath(PRODUCT_PRICE.formatted(productName))).getText().replace("$", "").trim());
     }
 
-    public List<Double> getProductPriceList(List<String> goodsNames) {
-        List<Double> prices = new ArrayList<>();
-        for (String name : goodsNames) {
-            prices.add(getProductPrice(name));
-        }
-        return prices;
+    public List<BigDecimal> getProductPriceList(List<String> goodsNames) {
+        return goodsNames.stream().map(this::getProductPrice).toList();
     }
 
-    public double getTotalCostOfGoods(List<Double> prices) {
-        double totalCost = 0.00;
-        for (Double prise : prices) {
-            totalCost += prise;
+    public BigDecimal getTotalCostOfGoods(List<BigDecimal> prices) {
+        BigDecimal totalCost = BigDecimal.ZERO;
+        for (BigDecimal price : prices) {
+            totalCost = totalCost.add(price);
         }
         return totalCost;
     }

@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckoutCompletePage extends BasePage {
     private final By successMessage = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("complete-header"));
@@ -16,7 +17,7 @@ public class CheckoutCompletePage extends BasePage {
     }
 
     public String getSuccessMessage() {
-        return driver.findElement(successMessage).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(successMessage)).getText();
     }
 
     public boolean isBackHomeBtnDisplayed() {

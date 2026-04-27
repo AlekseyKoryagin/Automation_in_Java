@@ -2,7 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import utils.PropertyReader;
 
 import java.time.Duration;
@@ -30,10 +30,10 @@ public class BasePage {
     }
 
     public String getTitle() {
-        return driver.findElement(pageTitle).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle)).getText();
     }
 
     public boolean isTitleDisplayed() {
-        return driver.findElement(pageTitle).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle)).isDisplayed();
     }
 }
