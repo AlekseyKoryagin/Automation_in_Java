@@ -33,8 +33,8 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public BigDecimal getPriceTotal() {
-        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(priceTotal)).getText().split("\\$");
-        return new BigDecimal(prise[1]);
+        String[] price = wait.until(ExpectedConditions.visibilityOfElementLocated(priceTotal)).getText().split("\\$");
+        return new BigDecimal(price[1]);
     }
 
     public boolean isSameCost(BigDecimal totalCost) {
@@ -42,13 +42,13 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public BigDecimal getTax() {
-        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(tax)).getText().split("\\$");
-        return new BigDecimal(prise[1]);
+        String[] price = wait.until(ExpectedConditions.visibilityOfElementLocated(tax)).getText().split("\\$");
+        return new BigDecimal(price[1]);
     }
 
     public BigDecimal getTotal() {
-        String[] prise = wait.until(ExpectedConditions.visibilityOfElementLocated(total)).getText().split("\\$");
-        return new BigDecimal(prise[1]);
+        String[] price = wait.until(ExpectedConditions.visibilityOfElementLocated(total)).getText().split("\\$");
+        return new BigDecimal(price[1]);
     }
 
     public boolean isTotalEqualCostAndTax() {
