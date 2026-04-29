@@ -9,4 +9,9 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String postalCode;
+
+    @Override
+    public String toString() {
+        return "First Name: " + firstName + ", Last Name: " + lastName + ", Postal Code: " + postalCode;
+    }
 }

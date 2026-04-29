@@ -1,12 +1,14 @@
 package tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import pages.*;
 
 import java.time.Duration;
@@ -22,6 +24,7 @@ public class BaseTest {
     CheckoutYourInformationPage checkoutYourInformationPage;
     CheckoutOverviewPage checkoutOverviewPage;
     CheckoutCompletePage checkoutCompletePage;
+    SoftAssert soft;
 
     /**
      * Метод выполняется перед тестом.
@@ -32,6 +35,7 @@ public class BaseTest {
      * Неявное ожидание 5 сек.
      * Инициализируем классы LoginPage, ProductsPage, CartPage.
      */
+    @Step("Запуск браузера {browser}")
     @BeforeMethod
     @Parameters({"browser"})
     public void startDriver(@Optional("chrome") String browser) {
@@ -58,12 +62,14 @@ public class BaseTest {
         checkoutYourInformationPage = new CheckoutYourInformationPage(driver);
         checkoutOverviewPage = new CheckoutOverviewPage(driver);
         checkoutCompletePage = new CheckoutCompletePage(driver);
+        soft = new SoftAssert();
     }
 
     /**
      * Метод выполняется после теста.
      * Закрывает запушенный веб-драйвер.
      */
+    @Step("Закрытие браузера")
     @AfterMethod
     public void closeDriver() {
         driver.quit();

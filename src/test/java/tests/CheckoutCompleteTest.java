@@ -1,12 +1,19 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 import static user.UserFactory.*;
 
+@Epic("Проверка страницы Checkout Complete")
 public class CheckoutCompleteTest extends BaseTest {
-    @Test
+    @Story("Заказ оформлен успешно")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Issue("yandex.ru")
+    @Test(description = "Проверка оформления заказа")
     public void checkMakeAnOrder() {
         loginPage.open().login(withStandardPermission());
         productsPage.addFirstThingToCart();

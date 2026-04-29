@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.PropertyReader;
@@ -21,35 +22,43 @@ public class NavigationPanel {
         this.driver = driver;
     }
 
+    @Step("Нажимаю на бургер меню")
     public NavigationPanel clickBurgerMenu() {
         driver.findElement(burgerMenu).click();
         return this;
     }
 
+    @Step("Нажимаю на ссылку Logout")
     public void clickLinkLogout() {
         driver.findElement(logoutLink).click();
     }
 
+    @Step("Нажимаю на иконку корзины")
     public void clickCartLink() {
         driver.findElement(cartLink).click();
     }
 
+    @Step("Нажимаю на ссылку About")
     public void clickAboutLink() {
         driver.findElement(aboutLink).click();
     }
 
+    @Step("Получаю количество товаров на иконке корзины")
     public String getCountThingsInCartBadge() {
         return driver.findElement(cartLink).getText();
     }
 
+    @Step("Получаю количество товаров на иконке корзины")
     public int getCountThingsInCart() {
         return Integer.parseInt(driver.findElement(countThingsInCartBadge).getText());
     }
 
+    @Step("Получаю цвет бейджа на иконке корзина")
     public String getColorOfCountThingsInCartBadge() {
         return driver.findElement(countThingsInCartBadge).getCssValue("background-color");
     }
 
+    @Step("Проверка цвета бейджа на иконке корзина")
     public boolean isRightColorOfCountThingsInCartBadge(String subStrColor) {
         return getColorOfCountThingsInCartBadge().contains(subStrColor);
     }

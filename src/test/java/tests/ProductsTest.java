@@ -1,13 +1,20 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 import static pages.BasePage.GOODS_NAME;
 import static user.UserFactory.withStandardPermission;
 
+@Epic("Проверка страницы Товары")
 public class ProductsTest extends BaseTest {
-    @Test(enabled = false)
+    @Feature("Добавление товаров")
+    @Story("Проверка добавления первого товара в выборке")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка добавления первого товара в выборке", enabled = false)
     public void checkFirstThingAddedToCart() {
         loginPage.open().login(withStandardPermission());
         assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
@@ -18,7 +25,13 @@ public class ProductsTest extends BaseTest {
                 "The color of the icon with the number of items in the basket is incorrect");
     }
 
-    @Test
+    @Feature("Добавление товаров")
+    @Story("Проверка добавления всех товаров в выборке")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Issue("yandex.ru")
+    @Test(description = "Проверка добавления всех товаров в выборке")
     public void checkAllThingsAddedToCart() {
         loginPage.open().login(withStandardPermission());
         assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
@@ -29,7 +42,12 @@ public class ProductsTest extends BaseTest {
                 "The color of the icon with the number of items in the basket is incorrect");
     }
 
-    @Test(priority = 2)
+    @Feature("Добавление товаров")
+    @Story("Проверка добавления товаров из списка товаров")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка добавления товаров из списка товаров", priority = 2)
     public void checkAddingGoodsToCart() {
         loginPage.open().login(withStandardPermission());
         productsPage.addGoodsToCartFromList(GOODS_NAME);
@@ -44,7 +62,12 @@ public class ProductsTest extends BaseTest {
                 "The color of the icon with the number of items in the basket is incorrect");
     }
 
-    @Test(priority = 2)
+    @Feature("Удаление товаров")
+    @Story("Проверка удаления добавленных товаров из списка")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка удаления добавленных товаров из списка", priority = 2)
     public void checkDeletingProduct() {
         loginPage.open().login(withStandardPermission());
         productsPage.addGoodsToCartFromList(GOODS_NAME);
