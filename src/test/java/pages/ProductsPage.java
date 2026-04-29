@@ -5,14 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.PropertyReader;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductsPage extends BasePage {
     public static final String PRODUCTS_PAGE_URL = PropertyReader.getProperty("automation_in_java.productsPageUrl");
-    public static final String ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN = "//*[text()='%s']" +
-            "//ancestor::div[@data-test='inventory-item']//child::button";
+    public static final String PRODUCT_PRICE = "//*[text()='%s']" +
+            "//ancestor::div[@data-test='inventory-item']//child::div[@data-test='inventory-item-price']";
 
-    private final By pageTitle = By.cssSelector(DATA_TEST_CSS_PATTERN.formatted("title"));
     private final By addToCartButton = By.xpath("//*[text()='Add to cart']");
 
     public ProductsPage(WebDriver driver) {
@@ -60,17 +60,8 @@ public class ProductsPage extends BasePage {
         }
     }
 
-    public String getPageTitle() {
-        return driver.findElement(pageTitle).getText();
-    }
-
-    public boolean isPageTitleDisplayed() {
-        return driver.findElement(pageTitle).isDisplayed();
-    }
-
     public String getColorOfBorderButton(String goodsName) {
-        return driver.findElement(
-                By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
+        return driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
     }
 
     /**
@@ -80,5 +71,26 @@ public class ProductsPage extends BasePage {
      */
     public boolean isRightBorderColorBtn(String goodsName, String subStrColor) {
         return getColorOfBorderButton(goodsName).contains(subStrColor);
+    }
+
+    /**
+     * Получает цену товара.
+     * @param productName принимает название товара.
+     * @return возвращает число BigDecimal.
+     */
+    public BigDecimal getProductPrice(String productName) {
+        return new BigDecimal(driver.findElement(By.xpath(PRODUCT_PRICE.formatted(productName))).getText().replace("$", "").trim());
+    }
+
+    public List<BigDecimal> getProductPriceList(List<String> goodsNames) {
+        return goodsNames.stream().map(this::getProductPrice).toList();
+    }
+
+    public BigDecimal getTotalCostOfGoods(List<BigDecimal> prices) {
+        BigDecimal totalCost = BigDecimal.ZERO;
+        for (BigDecimal price : prices) {
+            totalCost = totalCost.add(price);
+        }
+        return totalCost;
     }
 }

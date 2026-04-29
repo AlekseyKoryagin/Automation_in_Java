@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import user.User;
 
 public class LoginPage extends BasePage {
@@ -34,7 +35,7 @@ public class LoginPage extends BasePage {
     }
 
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     public boolean isErrorMsgDisplayed() {
@@ -42,7 +43,7 @@ public class LoginPage extends BasePage {
     }
 
     public String getErrorMsg() {
-        return driver.findElement(errorMessage).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage)).getText();
     }
 
     public boolean isLoginButtonDisplayed() {
@@ -50,6 +51,10 @@ public class LoginPage extends BasePage {
     }
 
     public String getColorOfLoginButton() {
-        return driver.findElement(loginButton).getCssValue("background-color");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).getCssValue("background-color");
+    }
+
+    public boolean isRightColorBtn(String subStrColor) {
+        return getColorOfLoginButton().contains(subStrColor);
     }
 }

@@ -49,4 +49,8 @@ public class NavigationPanel {
     public String getColorOfCountThingsInCartBadge() {
         return driver.findElement(countThingsInCartBadge).getCssValue("background-color");
     }
+
+    public boolean isRightColorOfCountThingsInCartBadge(String subStrColor) {
+        return getColorOfCountThingsInCartBadge().contains(subStrColor);
+    }
 }

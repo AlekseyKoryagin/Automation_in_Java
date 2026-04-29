@@ -2,8 +2,7 @@ package tests;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 import static pages.BasePage.BASE_URL;
 import static pages.NavigationPanel.COMPANY_MAIN_PAGE_URL;
 import static user.UserFactory.withStandardPermission;
@@ -12,7 +11,7 @@ public class NavigationPanelTest extends BaseTest {
     @Test
     public void checkLoginOut() {
         loginPage.open().login(withStandardPermission());
-        assertTrue(productsPage.isPageTitleDisplayed(), "The products title didn't appear");
+        assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
         productsPage.navigationPanel.clickBurgerMenu().clickLinkLogout();
 
         assertTrue(loginPage.isLoginButtonDisplayed(), "The login button did not appear");

@@ -19,7 +19,7 @@ public class CartTest extends BaseTest {
         assertTrue(cartPage.isAddedGoodsInCart(goodsInCart, GOODS_NAME), "The added product is not in the cart.");
     }
 
-    @Test
+    @Test(invocationCount = 3)
     public void checkDeletingFromCart() {
         loginPage.open().login(withStandardPermission());
         productsPage.addGoogsToCart(GOODS_NAME.get(1)).navigationPanel.clickCartLink();
