@@ -1,40 +1,53 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.*;
 import user.UserData;
 
 import static org.testng.Assert.*;
 import static user.UserFactory.*;
 
+@Epic("Проверка страницы Checkout Your Information")
 public class CheckoutYourInformationTest extends BaseTest {
-    @Test
+    @Story("Проверка перехода к оформлению заказа, отображения элементов")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка перехода к оформлению заказа, отображения элементов")
     public void checkGoToCheckout() {
         loginPage.open().login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
         cartPage.clickCheckoutBtn();
 
-        assertTrue(checkoutYourInformationPage.isTitleDisplayed(), "The title did not appear.");
-        assertEquals(checkoutYourInformationPage.getTitle(), "Checkout: Your Information", "Incorrect checkout page name");
+        soft.assertTrue(checkoutYourInformationPage.isTitleDisplayed(), "The title did not appear.");
+        soft.assertEquals(checkoutYourInformationPage.getTitle(), "Checkout: Your Information", "Incorrect checkout page name");
 
-        assertTrue(checkoutYourInformationPage.isCancelBtnDisplayed(), "The cancel button did not appear.");
-        assertTrue(checkoutYourInformationPage.isCancelBtnEnabled(), "The cancel button is not active.");
-        assertEquals(checkoutYourInformationPage.getCancelBtnName(), "Cancel", "Incorrect continue button name");
+        soft.assertTrue(checkoutYourInformationPage.isCancelBtnDisplayed(), "The cancel button did not appear.");
+        soft.assertTrue(checkoutYourInformationPage.isCancelBtnEnabled(), "The cancel button is not active.");
+        soft.assertEquals(checkoutYourInformationPage.getCancelBtnName(), "Cancel", "Incorrect continue button name");
 
-        assertTrue(checkoutYourInformationPage.isContinueBtnDisplayed(), "The continue button did not appear.");
-        assertTrue(checkoutYourInformationPage.isContinueBtnEnabled(), "The continue button is not active.");
-        assertEquals(checkoutYourInformationPage.getContinueBtnName(), "Continue", "Incorrect continue button name");
+        soft.assertTrue(checkoutYourInformationPage.isContinueBtnDisplayed(), "The continue button did not appear.");
+        soft.assertTrue(checkoutYourInformationPage.isContinueBtnEnabled(), "The continue button is not active.");
+        soft.assertEquals(checkoutYourInformationPage.getContinueBtnName(), "Continue", "Incorrect continue button name");
 
-        assertTrue(checkoutYourInformationPage.isFirstNameFieldDisplayed(), "The First Name Field did not appear.");
-        assertEquals(checkoutYourInformationPage.getFirstNameFieldPlaceholder(), "First Name", "Incorrect Placeholder on the First Name field");
+        soft.assertTrue(checkoutYourInformationPage.isFirstNameFieldDisplayed(), "The First Name Field did not appear.");
+        soft.assertEquals(checkoutYourInformationPage.getFirstNameFieldPlaceholder(), "First Name", "Incorrect Placeholder on the First Name field");
 
-        assertTrue(checkoutYourInformationPage.isLastNameFieldDisplayed(), "The Last Name Field did not appear.");
-        assertEquals(checkoutYourInformationPage.getLastNameFieldPlaceholder(), "Last Name", "Incorrect Placeholder on the Last Name field");
+        soft.assertTrue(checkoutYourInformationPage.isLastNameFieldDisplayed(), "The Last Name Field did not appear.");
+        soft.assertEquals(checkoutYourInformationPage.getLastNameFieldPlaceholder(), "Last Name", "Incorrect Placeholder on the Last Name field");
 
-        assertTrue(checkoutYourInformationPage.isPostalCodeFieldDisplayed(), "The Postal Code Field did not appear.");
-        assertEquals(checkoutYourInformationPage.getPostalCodeFieldPlaceholder(), "Zip/Postal Code", "Incorrect Placeholder on the Postal Code field");
+        soft.assertTrue(checkoutYourInformationPage.isPostalCodeFieldDisplayed(), "The Postal Code Field did not appear.");
+        soft.assertEquals(checkoutYourInformationPage.getPostalCodeFieldPlaceholder(), "Zip/Postal Code", "Incorrect Placeholder on the Postal Code field");
+
+        soft.assertAll();
     }
 
-    @Test
+    @Feature("Отправка формы с информацией о клиенте")
+    @Story("Отправка формы с корректными данными")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка отправки формы с информацией о клиенте")
     public void checkSendingForm() {
         loginPage.open().login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
@@ -45,7 +58,12 @@ public class CheckoutYourInformationTest extends BaseTest {
         assertEquals(checkoutOverviewPage.getTitle(), "Checkout: Overview", "Incorrect checkout page name");
     }
 
-    @Test(dataProvider = "IncorrectUserData")
+    @Feature("Отправка формы с информацией о клиенте")
+    @Story("Отправка формы с некорректными данными")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка отправки некорректной формы с информацией о клиенте", dataProvider = "IncorrectUserData")
     public void checkIncorrectSendingForm(UserData userData, String expectedErrorMsg) {
         loginPage.open().login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();

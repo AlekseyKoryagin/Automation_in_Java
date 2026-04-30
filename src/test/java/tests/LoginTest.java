@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.*;
 import user.User;
 
@@ -12,11 +13,17 @@ import static user.UserFactory.*;
  * валидные и невалидные проверки.
  * Является дочерним от BaseTest.
  */
+@Epic("Проверка страницы Login")
 public class LoginTest extends BaseTest {
     /**
      * Проверка входа зарегистрированного пользователя.
      */
-    @Test(groups = "smoke, regress")
+    @Feature("Проверка авторизации")
+    @Story("С корректными данными")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Test(description = "Проверка авторизации", groups = "smoke, regress")
     public void checkLogin() {
         loginPage.open();
         assertTrue(loginPage.isRightColorBtn("61, 220, 145"), "The color of login button is incorrect");
@@ -31,7 +38,13 @@ public class LoginTest extends BaseTest {
     /**
      * Проверка некорректного логина.
      */
-    @Test(dataProvider = "incorrectData")
+    @Feature("Проверка авторизации")
+    @Story("С некорректными данными")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Issue("yandex.ru")
+    @Test(description = "Проверка некорректной авторизации", dataProvider = "incorrectData")
     public void checkIncorrectLogin(User user, String expectedErrorMsg) {
         loginPage.open().login(user);
 

@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.*;
@@ -25,14 +26,17 @@ public class BasePage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    @Step("Получение url страницы")
     public String getUrl() {
         return driver.getCurrentUrl();
     }
 
+    @Step("Получение текста названия страницы")
     public String getTitle() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle)).getText();
     }
 
+    @Step("Проверка видимости названия страницы")
     public boolean isTitleDisplayed() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle)).isDisplayed();
     }

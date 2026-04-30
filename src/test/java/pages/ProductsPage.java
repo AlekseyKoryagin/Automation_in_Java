@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,10 +20,12 @@ public class ProductsPage extends BasePage {
         super(driver);
     }
 
+    @Step("Добавляю первый товар в выборке")
     public void addFirstThingToCart() {
         driver.findElements(addToCartButton).getFirst().click();
     }
 
+    @Step("Добавляю все товары в выборке")
     public void addAllThingsToCart() {
         List<WebElement> buttons = driver.findElements(addToCartButton);
         for (WebElement button : buttons) {
@@ -34,6 +37,7 @@ public class ProductsPage extends BasePage {
      * Добавляет товар по названию в корзину.
      * @param goodsName принимает название товара.
      */
+    @Step("Добавляю товар {goodsName} в выборке")
     public ProductsPage addGoogsToCart(String goodsName) {
         driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).click();
         return this;
@@ -43,6 +47,7 @@ public class ProductsPage extends BasePage {
      * Добавляет товары в корзину из списка.
      * @param goodsNames принимает список товаров.
      */
+    @Step("Добавляю товары из списка")
     public ProductsPage addGoodsToCartFromList(List<String> goodsNames) {
         for (String goodsName : goodsNames) {
             addGoogsToCart(goodsName);
@@ -54,12 +59,14 @@ public class ProductsPage extends BasePage {
      * Удаляет добавленные товары из корзины из списка.
      * @param goodsNames принимает список товаров.
      */
+    @Step("Удаляю товары из списка")
     public void deleteGoodsFromCartFromList(List<String> goodsNames) {
         for (String goodsName : goodsNames) {
             driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).click();
         }
     }
 
+    @Step("Получаю цвет границы кнопки Remove товара {goodsName}")
     public String getColorOfBorderButton(String goodsName) {
         return driver.findElement(By.xpath(ADD_TO_CART_AND_REMOVE_BUTTON_PATTERN.formatted(goodsName))).getCssValue("border");
     }
@@ -69,6 +76,7 @@ public class ProductsPage extends BasePage {
      * @param goodsName   принимает название товара.
      * @param subStrColor принимает суб-строку, которую должен содержать полученный цвет.
      */
+    @Step("Проверяю цвет границы кнопки")
     public boolean isRightBorderColorBtn(String goodsName, String subStrColor) {
         return getColorOfBorderButton(goodsName).contains(subStrColor);
     }
@@ -78,14 +86,17 @@ public class ProductsPage extends BasePage {
      * @param productName принимает название товара.
      * @return возвращает число BigDecimal.
      */
+    @Step("Получаю цену товара {productName}")
     public BigDecimal getProductPrice(String productName) {
         return new BigDecimal(driver.findElement(By.xpath(PRODUCT_PRICE.formatted(productName))).getText().replace("$", "").trim());
     }
 
+    @Step("Получаю список цен товаров")
     public List<BigDecimal> getProductPriceList(List<String> goodsNames) {
         return goodsNames.stream().map(this::getProductPrice).toList();
     }
 
+    @Step("Получаю сумму добавленных товаров")
     public BigDecimal getTotalCostOfGoods(List<BigDecimal> prices) {
         BigDecimal totalCost = BigDecimal.ZERO;
         for (BigDecimal price : prices) {

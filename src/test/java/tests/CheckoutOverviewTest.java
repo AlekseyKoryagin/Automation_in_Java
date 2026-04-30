@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -8,8 +9,14 @@ import static org.testng.Assert.*;
 import static pages.BasePage.GOODS_NAME;
 import static user.UserFactory.*;
 
+@Epic("Проверка страницы Checkout Overview")
 public class CheckoutOverviewTest extends BaseTest {
-    @Test
+    @Story("Проверка сумм в оформлении заказа")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Aleksey Ivanov test@test.ru")
+    @TmsLink("Automation_in_Java")
+    @Issue("yandex.ru")
+    @Test(description = "Проверка сумм в оформлении заказа")
     public void checkAmoundsInOverview() {
         loginPage.open().login(withStandardPermission());
         productsPage.addGoodsToCartFromList(GOODS_NAME);
