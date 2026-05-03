@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
+import static enums.PageTitles.CART;
 import static org.testng.Assert.*;
 import static pages.BasePage.BASE_URL;
 import static pages.NavigationPanel.COMPANY_MAIN_PAGE_URL;
@@ -16,9 +17,13 @@ public class NavigationPanelTest extends BaseTest {
     @TmsLink("Automation_in_Java")
     @Test(description = "Проверка выхода из учётной записи")
     public void checkLoginOut() {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         assertTrue(productsPage.isTitleDisplayed(), "The products title didn't appear");
-        productsPage.navigationPanel.clickBurgerMenu().clickLinkLogout();
+        productsPage.navigationPanel
+                .clickBurgerMenu()
+                .clickLinkLogout();
 
         assertTrue(loginPage.isLoginButtonDisplayed(), "The login button did not appear");
         assertEquals(loginPage.getUrl(), BASE_URL, "Invalid URL after successful login");
@@ -31,8 +36,12 @@ public class NavigationPanelTest extends BaseTest {
     @Issue("yandex.ru")
     @Test(description = "Проверка перехода на страницу о компании")
     public void checkGoToAboutCompanyPage() {
-        loginPage.open().login(withStandardPermission());
-        productsPage.navigationPanel.clickBurgerMenu().clickAboutLink();
+        loginPage
+                .open()
+                .login(withStandardPermission());
+        productsPage.navigationPanel
+                .clickBurgerMenu()
+                .clickAboutLink();
 
         assertEquals(productsPage.getUrl(), COMPANY_MAIN_PAGE_URL, "The wrong site page has opened.");
     }
@@ -43,10 +52,12 @@ public class NavigationPanelTest extends BaseTest {
     @TmsLink("Automation_in_Java")
     @Test(description = "Проверка перехода в корзину")
     public void checkGoToCart() {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
 
         assertTrue(cartPage.isTitleDisplayed(), "The cart title didn't appear");
-        assertEquals(cartPage.getTitle(), "Your Cart", "Incorrect page Title");
+        assertEquals(cartPage.getTitle(), CART.getPageTitle(), "Incorrect page Title");
     }
 }

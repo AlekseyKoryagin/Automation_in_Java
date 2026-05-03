@@ -18,7 +18,9 @@ public class CheckoutOverviewTest extends BaseTest {
     @Issue("yandex.ru")
     @Test(description = "Проверка сумм в оформлении заказа")
     public void checkAmoundsInOverview() {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         productsPage.addGoodsToCartFromList(GOODS_NAME);
         BigDecimal totalCost = productsPage.getTotalCostOfGoods(productsPage.getProductPriceList(GOODS_NAME));
         productsPage.navigationPanel.clickCartLink();
