@@ -4,6 +4,8 @@ import io.qameta.allure.*;
 import org.testng.annotations.*;
 import user.UserData;
 
+import static enums.ElementColors.RED;
+import static enums.PageTitles.*;
 import static org.testng.Assert.*;
 import static user.UserFactory.*;
 
@@ -15,7 +17,9 @@ public class CheckoutYourInformationTest extends BaseTest {
     @TmsLink("Automation_in_Java")
     @Test(description = "Проверка перехода к оформлению заказа, отображения элементов")
     public void checkGoToCheckout() {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
         cartPage.clickCheckoutBtn();
 
@@ -49,13 +53,17 @@ public class CheckoutYourInformationTest extends BaseTest {
     @TmsLink("Automation_in_Java")
     @Test(description = "Проверка отправки формы с информацией о клиенте")
     public void checkSendingForm() {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
         cartPage.clickCheckoutBtn();
+        assertTrue(checkoutYourInformationPage.isTitleDisplayed(), "The products title didn't appear");
+        assertEquals(checkoutYourInformationPage.getTitle(), CHECKOUT_YOUR_INFORMATION.getPageTitle(), "Incorrect checkout page name");
         checkoutYourInformationPage.sendFilledForm(infoWithCorrectData());
 
         assertTrue(checkoutOverviewPage.isTitleDisplayed(), "The title did not appear.");
-        assertEquals(checkoutOverviewPage.getTitle(), "Checkout: Overview", "Incorrect checkout page name");
+        assertEquals(checkoutOverviewPage.getTitle(), CHECKOUT_OVERVIEW.getPageTitle(), "Incorrect checkout page name");
     }
 
     @Feature("Отправка формы с информацией о клиенте")
@@ -65,13 +73,17 @@ public class CheckoutYourInformationTest extends BaseTest {
     @TmsLink("Automation_in_Java")
     @Test(description = "Проверка отправки некорректной формы с информацией о клиенте", dataProvider = "IncorrectUserData")
     public void checkIncorrectSendingForm(UserData userData, String expectedErrorMsg) {
-        loginPage.open().login(withStandardPermission());
+        loginPage
+                .open()
+                .login(withStandardPermission());
         productsPage.navigationPanel.clickCartLink();
         cartPage.clickCheckoutBtn();
         checkoutYourInformationPage.sendFilledForm(userData);
+        assertTrue(checkoutYourInformationPage.isTitleDisplayed(), "The products title didn't appear");
+        assertEquals(checkoutYourInformationPage.getTitle(), CHECKOUT_YOUR_INFORMATION.getPageTitle(), "Incorrect checkout page name");
 
         assertTrue(checkoutYourInformationPage.isErrorMsgDisplayed(), "The error message did not appear.");
-        assertTrue(checkoutYourInformationPage.isCorrectBackgroundColorErrorMsg("226, 35, 26"), "The Background Color of Error Message is not correct.");
+        assertTrue(checkoutYourInformationPage.isCorrectBackgroundColorErrorMsg(RED.getElementColor()), "The Background Color of Error Message is not correct.");
         assertEquals(checkoutYourInformationPage.getErrorMsg(), expectedErrorMsg, "Incorrect error message.");
     }
 

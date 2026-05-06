@@ -1,0 +1,13 @@
+<suite name="Automation_in_Java" parallel="classes" thread-count="2">
+    <test name="All tests">
+        <classes>
+            <class name="tests.LoginTest"/>
+            <class name="tests.ProductsTest"/>
+            <class name="tests.CartTest"/>
+            <class name="tests.NavigationPanelTest"/>
+            <class name="tests.CheckoutYourInformationTest"/>
+            <class name="tests.CheckoutOverviewTest"/>
+            <class name="tests.CheckoutCompleteTest"/>
+        </classes>
+    </test>
+</suite>
